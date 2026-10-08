@@ -1,0 +1,31 @@
+---
+import Base from "../layouts/Base.astro";
+import Card from "../components/Card.astro";
+---
+<Base title="Contamination policy" description="How CivBench defends the leaderboard against training-data contamination: private holdout, generator-minted variants, clean/raw reporting.">
+  <section class="mx-auto max-w-3xl px-5 pt-12 pb-6 prose-civ">
+    <h1 class="font-serif text-4xl mb-4">Contamination policy</h1>
+    <p>Static eval fixtures have a half-life: the moment they're public, they can end up in someone's training data. A leaderboard that can't say how it defends against that is vibes with a table. Ours is three layers, all public.</p>
+
+    <h2>1. Private holdout</h2>
+    <p>A seeded 20% of fixtures — stratified by category, deterministic in the seed — is never published. The leaderboard reports two numbers per model: public score and holdout score. A large public-minus-holdout gap is the contamination signal, and it's visible to everyone.</p>
+
+    <h2>2. Generator-minted fresh variants</h2>
+    <p>The fixture generators ship in the eval repo as the factory, not just history. Before each leaderboard round, fresh variants are minted — new names, amounts, dates; same rule structure and gold-answer derivation. Fresh variants can't have been trained on, because they didn't exist at training time. This is the strongest defense we have.</p>
+
+    <h2>3. Clean / raw reporting</h2>
+    <p>If there's ever evidence a model saw the fixture set, both scores are reported and the clean one counts. The raw number is never silently dropped — the gap is information.</p>
+
+    <h2>What this doesn't cover</h2>
+    <ul>
+      <li>The holdout only works while it stays private. One leak burns the seed; a new one gets minted.</li>
+      <li>LLM-judge rubrics can be gamed by judge-aware training too — judge models rotate, and every run names its judge.</li>
+    </ul>
+  </section>
+  <section class="mx-auto max-w-3xl px-5 py-8">
+    <Card>
+      <div class="font-semibold mb-2">Why the fixtures aren't public</div>
+      <p class="text-sm text-ink-soft leading-relaxed">The eval repo is private <em>because</em> the benchmark is open: everything about how it runs is inspectable, but the test materials themselves stay out of training corpora. Open methodology, closed test set — the same split every serious benchmark lands on, stated up front instead of discovered later.</p>
+    </Card>
+  </section>
+</Base>

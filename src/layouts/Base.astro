@@ -1,0 +1,70 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  path?: string;
+}
+const { title, description = "CivBench — the open benchmark for LLMs in public-sector service.", path = "/" } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} — CivBench</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="font-sans antialiased">
+    <header class="border-b border-line bg-paper/90 backdrop-blur sticky top-0 z-50">
+      <div class="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2.5">
+          <span class="grid h-8 w-8 place-items-center rounded-md bg-ink text-paper font-serif text-lg leading-none">C</span>
+          <span class="font-semibold tracking-tight text-lg">CivBench</span>
+          <span class="hidden sm:inline text-xs text-ink-mute border border-line rounded-full px-2 py-0.5 ml-1">public beta</span>
+        </a>
+        <nav class="flex items-center gap-1 text-sm">
+          <a href="/leaderboard" class="px-3 py-2 rounded-md hover:bg-black/5 text-ink-soft hover:text-ink">Leaderboard</a>
+          <a href="/methodology" class="px-3 py-2 rounded-md hover:bg-black/5 text-ink-soft hover:text-ink hidden md:inline">Methodology</a>
+          <a href="/categories" class="px-3 py-2 rounded-md hover:bg-black/5 text-ink-soft hover:text-ink hidden md:inline">Categories</a>
+          <a href="/founding-argument" class="px-3 py-2 rounded-md hover:bg-black/5 text-ink-soft hover:text-ink hidden lg:inline">Why this exists</a>
+          <a href="/leaderboard" class="ml-2 px-4 py-2 rounded-md bg-ink text-paper text-sm font-medium hover:bg-ink-soft">See the scores</a>
+        </nav>
+      </div>
+    </header>
+    <main><slot /></main>
+    <footer class="border-t border-line mt-20">
+      <div class="mx-auto max-w-6xl px-5 py-10 grid gap-8 md:grid-cols-4 text-sm">
+        <div class="md:col-span-2">
+          <div class="font-semibold mb-2">CivBench</div>
+          <p class="text-ink-mute leading-relaxed max-w-sm">The open benchmark for language models in public-sector service. Fixtures, runner, and methodology are open source; the leaderboard is public.</p>
+        </div>
+        <div>
+          <div class="font-semibold mb-2">Benchmark</div>
+          <ul class="space-y-1.5 text-ink-mute">
+            <li><a class="hover:text-ink" href="/leaderboard">Leaderboard</a></li>
+            <li><a class="hover:text-ink" href="/methodology">Methodology</a></li>
+            <li><a class="hover:text-ink" href="/categories">Categories</a></li>
+            <li><a class="hover:text-ink" href="/contamination">Contamination policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-semibold mb-2">Project</div>
+          <ul class="space-y-1.5 text-ink-mute">
+            <li><a class="hover:text-ink" href="/founding-argument">Founding argument</a></li>
+            <li><a class="hover:text-ink" href="https://github.com/ctrimm/civbench">Eval repo (private)</a></li>
+            <li><a class="hover:text-ink" href="https://github.com/ctrimm/civ-bench-marketing">Site repo</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-line">
+        <div class="mx-auto max-w-6xl px-5 py-5 text-xs text-ink-mute flex justify-between">
+          <span>CivBench — an open research project.</span>
+          <span>Scores are pass@1 unless noted.</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

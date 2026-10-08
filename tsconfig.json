@@ -1,0 +1,1 @@
+{"compilerOptions":{"module":"esnext","moduleResolution":"bundler","strict":true,"target":"es2022"},"extends":"astro/tsconfigs/strict","include":["src"]}

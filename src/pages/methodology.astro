@@ -1,0 +1,42 @@
+---
+import Base from "../layouts/Base.astro";
+import Card from "../components/Card.astro";
+---
+<Base title="Methodology" description="How CivBench runs: fixtures, scorers, Inspect AI wiring, and what pass@1 means here.">
+  <section class="mx-auto max-w-3xl px-5 pt-12 pb-6 prose-civ">
+    <h1 class="font-serif text-4xl mb-4">Methodology</h1>
+    <p>Every score on the leaderboard is produced the same way. No secret sauce, no vibes-based grading — the whole pipeline is open source and reproducible with one command.</p>
+
+    <h2>The fixture</h2>
+    <p>Each of the 93 fixtures isolates <strong>one failure mode</strong>: one rule, or one interaction between rules. A fixture is a pair of files — <code class="font-mono text-sm">input.json</code> (the prompt: task, scenario, conversation) and <code class="font-mono text-sm">expected.json</code> (the gold answer, the scorer to use, and the rubric where one applies). The manifest registers every fixture with its taxonomy dimensions: category, policy groundedness, plain-language requirement, horizon, and role.</p>
+
+    <h2>The scorers</h2>
+    <p>Eleven scorers, two kinds. <strong>Deterministic scorers</strong> check things a script can verify: did the eligibility boolean match, were the required rule ids cited, was the rule-check order right, did the model escalate with a reason, was the needle fact retrieved. <strong>LLM-judge scorers</strong> handle what scripts can't — plain-language quality, the FACT/INFERENCE/UNKNOWN contract, long-horizon consistency — with the fixture's rubric as the judge's instructions.</p>
+    <p>A fixture with no model or judge wired in reports <code class="font-mono text-sm">NOT RUN</code> — a first-class status, never confused with a pass. An unimplemented check must not look like a passing eval.</p>
+
+    <h2>The runner</h2>
+    <p>Runs go through <a class="underline underline-offset-2" href="https://inspect.aisi.org.uk/">Inspect AI</a>: the fixtures become an Inspect dataset, deterministic scorers are ported one-to-one, and rubric fixtures use a model-graded judge. The model answers under a JSON output contract (eligibility, rule ids, check order, escalation decision, explanation); a completion with no parseable JSON fails the fixture.</p>
+    <div class="bg-ink text-paper rounded-lg px-5 py-4 font-mono text-sm my-6">
+      <div><span class="opacity-50">$</span> inspect eval src/civbench/inspect_task.py@civbench_deterministic --model &lt;model&gt;</div>
+      <div><span class="opacity-50">$</span> python scripts/run_evals.py --model-name &lt;id&gt; --out run.jsonl</div>
+    </div>
+
+    <h2>What the numbers mean</h2>
+    <ul>
+      <li><strong>Score</strong> is pass@1: the share of fixtures graded PASS. All runs use the same harness and the same fixtures for a given round.</li>
+      <li><strong>Cost / task</strong> is measured inference spend per fixture — tokens × provider pricing — so the leaderboard shows the price of capability, not just the capability.</li>
+      <li><strong>Provisional</strong> marks partial runs or cost estimates, pending a full rerun. They stay labeled until replaced.</li>
+      <li><strong>Judge-graded scores</strong> ship with the judge-vs-human agreement (Cohen's kappa) from a labeled sample. Below 0.6, the judge isn't trusted and the scores don't publish as headlines.</li>
+    </ul>
+
+    <h2>What it doesn't measure</h2>
+    <p>CivBench runs against synthetic rulesets today — the numbers are real, the dollar figures are not. Wiring real policy (Catala rules-as-code) with gold answers derived from computed output is the credibility milestone in progress. Until then, treat scores as measures of <em>rule-following machinery</em>, not of readiness to decide real cases.</p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 py-8">
+    <Card>
+      <div class="font-semibold mb-2">Reproduce any score</div>
+      <p class="text-sm text-ink-soft leading-relaxed">The eval repo is private to protect the fixtures (see contamination policy), but every published run names its seed, model, judge, and harness version — enough for an independent rerun of the public set.</p>
+    </Card>
+  </section>
+</Base>

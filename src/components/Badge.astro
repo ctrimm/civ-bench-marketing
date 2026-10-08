@@ -1,0 +1,12 @@
+---
+interface Props { tone?: "default" | "gold" | "mint" | "clay" | "signal"; class?: string }
+const { tone = "default", class: cls = "" } = Astro.props;
+const tones: Record<string, string> = {
+  default: "border-line text-ink-soft",
+  gold: "border-gold/30 bg-gold-soft text-gold",
+  mint: "border-mint/30 bg-mint-soft text-mint",
+  clay: "border-clay/30 bg-clay-soft text-clay",
+  signal: "border-signal/30 bg-signal/5 text-signal-deep",
+};
+---
+<span class={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${tones[tone]} ${cls}`}><slot /></span>

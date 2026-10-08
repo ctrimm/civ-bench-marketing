@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+import Card from "../components/Card.astro";
+import Badge from "../components/Badge.astro";
+import categories from "../data/categories.json";
+
+const cats = categories.categories as Record<string, string>;
+const fixtureCats = categories.fixture_categories as Record<string, string>;
+const counts: Record<string, number> = {};
+for (const c of Object.values(fixtureCats)) counts[c] = (counts[c] ?? 0) + 1;
+const lit = new Set(["process-based-scoring","multilateral-multirole","hidden-state-inference","policy-extraction-fidelity","robustness-paraphrase","context-volume-stress","escalation-to-human","asymmetric-error-cost"]);
+---
+<Base title="Categories" description="The 18 CivBench eval categories: what each one tests and why it exists.">
+  <section class="mx-auto max-w-6xl px-5 pt-12 pb-6">
+    <h1 class="font-serif text-4xl mb-2">18 categories</h1>
+    <p class="text-ink-soft max-w-2xl">Ten cover the core public-sector task surface; eight close specific gaps identified against the eval literature. Each category isolates one failure mode.</p>
+  </section>
+  <section class="mx-auto max-w-6xl px-5 py-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {Object.entries(cats).sort((a, b) => (counts[b[0]] ?? 0) - (counts[a[0]] ?? 0)).map(([id, desc]) => (
+      <Card>
+        <div class="flex items-center justify-between mb-2">
+          <Badge tone={lit.has(id) ? "signal" : "default"}>{lit.has(id) ? "literature-grounded" : "core"}</Badge>
+          <span class="text-xs text-ink-mute font-mono">{counts[id] ?? 0} fixtures</span>
+        </div>
+        <div class="font-semibold mb-1">{id}</div>
+        <p class="text-sm text-ink-soft leading-relaxed">{desc}</p>
+      </Card>
+    ))}
+  </section>
+</Base>

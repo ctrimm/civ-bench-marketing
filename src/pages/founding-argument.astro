@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+---
+<Base title="Founding argument" description="Why standard LLM benchmarks fail government services, across six dimensions.">
+  <section class="mx-auto max-w-3xl px-5 pt-12 pb-16 prose-civ">
+    <p class="text-sm text-ink-mute uppercase tracking-widest mb-2">Draft — argued with, not carved in stone</p>
+    <h1 class="font-serif text-4xl mb-6">Why standard benchmarks fail government services</h1>
+    <p>General-purpose LLM benchmarks — MMLU, HumanEval, the agent suites — measure something real, but none of them measure what a government service actually needs from a model. A model can top a coding leaderboard and still be unusable behind a benefits counter. The gap isn't a matter of degree; it's six distinct dimensions no standard benchmark covers.</p>
+
+    <h2>1. Policy groundedness</h2>
+    <p>A benefits determination isn't a trivia answer — it's the application of a specific, cited rule to a specific person's facts. Standard benchmarks reward models for knowing things; government services need models that <strong>cite the rule they applied</strong> and say "I don't know" when they can't. A model that invents a threshold is worse than a model that abstains — and most benchmarks can't tell the difference.</p>
+
+    <h2>2. Process correctness, not just outcome correctness</h2>
+    <p>Two caseworkers can reach the same eligibility answer, one correctly and one by accident. Checking income before categorical eligibility that would have short-circuited the whole test is a <strong>process</strong> error, even when the outcome matches. Standard benchmarks score outcomes; in a regulated process, the procedure is the product.</p>
+
+    <h2>3. Asymmetric error cost</h2>
+    <p>Every mainstream scorer treats a false positive and a false negative as equally wrong. In benefits they aren't: a false denial withholds support someone is entitled to; a false approval creates an overpayment to recover later. A benchmark that can't distinguish them is mismeasuring what matters.</p>
+
+    <h2>4. Escalation as a first-class behavior</h2>
+    <p>Safety benchmarks test a binary: answer or refuse. The real public-sector safety behavior is a third option — <strong>flag for a human</strong>. A domestic-violence mention, a conflicting court order, an ambiguous hardship: the correct move isn't a determination and isn't a refusal, it's a handoff with a reason. No standard benchmark tests whether a model knows when to stop deciding.</p>
+
+    <h2>5. Plain-language accessibility</h2>
+    <p>A determination the applicant can't understand is a determination that will be appealed, misunderstood, or abandoned. Federal plain language guidelines exist precisely because government prose fails people — yet no benchmark grades whether model output meets them.</p>
+
+    <h2>6. Long-horizon state and multi-party reality</h2>
+    <p>Cases aren't single-turn Q&A. They evolve across interviews, life events, recertifications, and corrections — and they involve reactive counterparties: supervisors who override, advocates who push back, interpreters who relay. Benchmarks built on isolated prompts can't see state-tracking failures or multi-role dynamics.</p>
+
+    <p>The claim isn't that existing benchmarks are useless — it's that a model can clear all of them and still fail at the six things above, which are the six things a deployment in front of real applicants lives or dies on. CivBench exists to measure those six directly.</p>
+  </section>
+</Base>
